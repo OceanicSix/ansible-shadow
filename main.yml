@@ -1,0 +1,18 @@
+---
+- name: "install and config shadow"
+  hosts: localhost
+  connection: local
+  vars: # set options here
+    server_port: "443"
+    password: "123456"
+    domain: "example.com"
+  roles:
+    - role: "roles/install-tools"
+    - role: "roles/create-certs"
+  tasks:
+    - name: "start the shadow"
+      ansible.builtin.systemd:
+        name: shadowsocks-libev
+        state: restarted 
+      become: true
+      become_method: sudo

@@ -1,0 +1,6 @@
+- name: "download v2ray plugin"
+  apt: 
+    name: shadowsocks-v2ray-plugin
+    state: present
+  become: true
+  become_method: sudo

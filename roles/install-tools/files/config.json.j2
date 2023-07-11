@@ -1,0 +1,11 @@
+{
+    "server":"0.0.0.0",
+    "mode":"tcp_and_udp",
+    "server_port":{{ server_port }},
+    "local_port":1080,
+    "password":"{{ password }}",
+    "timeout":60,
+    "method":"chacha20-ietf-poly1305",
+    "plugin": "/usr/bin/ss-v2ray-plugin",
+    "plugin_opts": "server;tls;host={{ domain }};cert=/opt/cert/fullchain.pem;key=/opt/cert/privkey.pem;"
+}

@@ -1,0 +1,45 @@
+---
+- name: "install certbot"
+  community.general.snap:
+    name: certbot
+    state: present
+    classic: true
+  become: true
+  become_method: sudo
+- name: "define path for cert, used for check if exist"
+  stat:
+    path: /etc/letsencrypt/live/{{ domain }}/fullchain.pem
+  register: cert_path 
+  become: true
+  become_method: sudo
+- name: "Generate cert if cert not exist"
+  shell:
+    cmd: /snap/bin/certbot certonly --standalone --register-unsafely-without-email -d {{ domain }} --agree-tos 
+  become: true
+  become_method: sudo
+  when: not cert_path.stat.exists
+- name: "create cert dir"
+  ansible.builtin.file:
+    path: "/opt/cert"
+    state: directory
+    mode: '0755'
+  become: true
+  become_method: sudo
+- name: "Copy cert and change permission"
+  copy:
+    src: /etc/letsencrypt/live/{{ domain }}/fullchain.pem
+    dest: "/opt/cert/"
+    mode: 0755
+    remote_src: True
+  become: true
+  become_method: sudo
+- name: "Copy key and change permission"
+  copy:
+    src: /etc/letsencrypt/live/{{ domain }}/privkey.pem
+    dest: "/opt/cert/"
+    mode: 0755
+    remote_src: True
+  become: true
+  become_method: sudo
+
+
