@@ -1,7 +1,10 @@
 # ansible-shadow
 
-Set the
+Use ansible to automatically setup shadow
+
+## 
+In `main.yml`, set 
 - Password
 - Domain name
 
-in `main.yml`
+
